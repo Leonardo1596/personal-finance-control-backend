@@ -98,6 +98,8 @@ const login = (req, res, next) => {
                             bills_to_pay: billsToPay
                         };
 
+                        console.log(user._id);
+
                         // Successfully
                         console.log(`User: ${user.email} is signed`)
 
