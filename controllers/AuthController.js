@@ -113,15 +113,15 @@ const login = (req, res, next) => {
                         // Successfully
                         console.log(`User: ${user.email} is signed`)
 
-                        res.json({ token: accessToken, userInfo: userInfo, message: 'Successfully signed' });
+                        res.json({ token: accessToken, userInfo: userInfo, message: 'Logado com sucesso' });
                         next();
                     } else {
-                        res.json({ message: 'Password is wrong!' });
+                        res.json({ message: 'A senha está incorreta' });
                     }
                 });
             } else {
                 console.log('user not found');
-                res.json({ message: 'User not found' });
+                res.json({ message: 'Usuário não encontrado' });
             }
         });
 };
