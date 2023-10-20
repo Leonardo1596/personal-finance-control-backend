@@ -74,7 +74,8 @@ const login = (req, res, next) => {
     User.findOne({ email: req.body.email })
         .then(async user => {
             if (user) {
-                bcrypt.compare(req.body.password, user.password, async (err, result) => {1
+                bcrypt.compare(req.body.password, user.password, async (err, result) => {
+                    1
                     if (err) {
                         res.json({ error: err });
                     }
@@ -89,12 +90,23 @@ const login = (req, res, next) => {
                         const transactions = await Transaction.find({ userId: user._id });
                         const billsToPay = await BillToPay.find({ userId: user._id });
 
+                        // Organize accounts and transactions
+                        const organizedAccounts = await Promise.all(
+                            accounts.map(async (account) => {
+                                const transactions = await Transaction.find({ accountId: account._id });
+                                return {
+                                    ...account.toObject(),
+                                    transactions
+                                };
+                            })
+                        );
+
                         let userInfo = {
                             _id: user._id,
                             email: user.email,
                             username: user.username,
-                            accounts: accounts,
-                            transactions: transactions,
+                            accounts: organizedAccounts,
+                            // transactions: transactions,
                             bills_to_pay: billsToPay
                         };
 
